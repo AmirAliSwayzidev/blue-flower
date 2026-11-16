@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>رز آبی</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg1:#050816;--bg2:#0b1b3f;--text:#dbeafe;--accent:#7cc4ff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html,body{height:100%;margin:0}
+body{background:radial-gradient(ellipse at 50% 35%,var(--bg2),var(--bg1) 70%);color:var(--text);font-family:'Vazirmatn',Tahoma,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;color-scheme:dark}
+.star{position:fixed;width:3px;height:3px;border-radius:50%;background:#cfe6ff;opacity:.2;animation:tw 4s ease-in-out infinite}
+@keyframes tw{50%{opacity:.9;transform:scale(1.6)}}
+.stage{perspective:900px;width:min(92vw,380px)}
+svg{width:100%;height:auto;max-height:68vh;display:block;overflow:visible}
+.stage.turn svg{animation:sway 9s ease-in-out infinite alternate}
+@keyframes sway{from{transform:rotateY(-28deg)}to{transform:rotateY(28deg)}}
+.draw{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 3.2s ease-in-out}
+.draw.on{stroke-dashoffset:0}
+.pop{transition:transform 2.4s cubic-bezier(.2,.9,.3,1.2);transform:scale(0)}
+.ring{transition:transform 3s cubic-bezier(.2,.8,.3,1.1);transform:scale(0)}
+.spin{animation:spin var(--d,20s) linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#bloomGlow{filter:drop-shadow(0 0 14px rgba(70,140,255,.75))}
+#orbit{opacity:0;transition:opacity 3s}
+#orbit.on{opacity:1}
+#orbit g.rot{animation:spin 40s linear infinite reverse;transform-origin:0 0}
+#orbit text{fill:#bfe0ff;font-size:15px;font-family:'Vazirmatn',Tahoma,sans-serif;text-anchor:middle}
+#seed{transition:opacity 1.5s}
+.cap{min-height:84px;text-align:center;padding:0 20px;max-width:440px;transition:opacity .7s}
+.cap h1{font-size:clamp(18px,4.6vw,24px);font-weight:500;margin:10px 0 6px;line-height:1.9}
+.cap p{margin:0;font-weight:300;color:var(--accent);font-size:15px;line-height:1.9}
+button{margin-top:14px;background:transparent;color:var(--text);border:1px solid #3b82f6;border-radius:24px;padding:8px 22px;font:inherit;cursor:pointer;opacity:0;transition:opacity 1s,background .3s}
+button.show{opacity:1}
+button:hover{background:rgba(59,130,246,.25)}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+<svg viewBox="0 0 400 600" aria-label="رز آبی در حال رشد">
+  <defs>
+    <linearGradient id="g0" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#0f1f66"/><stop offset="1" stop-color="#9bd3ff"/></linearGradient>
+    <linearGradient id="g1" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#14297d"/><stop offset="1" stop-color="#6db6ff"/></linearGradient>
+    <linearGradient id="g2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#0b1a55"/><stop offset="1" stop-color="#4f9cf5"/></linearGradient>
+    <linearGradient id="g3" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#071340"/><stop offset="1" stop-color="#3a7de0"/></linearGradient>
+    <linearGradient id="leafG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0f5c4a"/><stop offset="1" stop-color="#2fae8a"/></linearGradient>
+    <radialGradient id="soil" cx=".5" cy=".3" r=".8"><stop offset="0" stop-color="#3a2a22"/><stop offset="1" stop-color="#150f0d"/></radialGradient>
+  </defs>
+  <!-- soil -->
+  <path d="M10 528 Q200 505 390 528 L390 600 L10 600Z" fill="url(#soil)"/>
+  <circle id="seed" cx="200" cy="528" r="6" fill="#9bd3ff"><animate attributeName="opacity" values=".4;1;.4" dur="2s" repeatCount="indefinite"/></circle>
+  <!-- roots -->
+  <g fill="none" stroke="#b08968" stroke-width="3" stroke-linecap="round">
+    <path class="draw root" pathLength="1" d="M200 528 C198 555 185 570 165 596"/>
+    <path class="draw root" pathLength="1" d="M200 528 C204 560 215 575 238 598"/>
+    <path class="draw root" pathLength="1" d="M199 540 C180 550 150 552 120 566"/>
+    <path class="draw root" pathLength="1" d="M201 545 C225 552 255 556 285 570"/>
+  </g>
+  <!-- stem -->
+  <path id="stem" class="draw" pathLength="1" d="M200 528 C190 450 214 330 200 205" fill="none" stroke="#1f8a6e" stroke-width="7" stroke-linecap="round"/>
+  <!-- thorns -->
+  <g fill="#1f8a6e"><path class="pop leafy" d="M199 470 l-9 -6 l10 -2z"/><path class="pop leafy" d="M205 400 l10 -5 l-9 -4z"/></g>
+  <!-- leaves -->
+  <g transform="translate(198,440)"><g class="pop leafy"><path d="M0 0 C-30 -34 -80 -36 -108 -12 C-80 18 -30 22 0 0Z" fill="url(#leafG)"/><path d="M0 0 C-40 -8 -70 -12 -100 -12" stroke="#a6f0d4" stroke-opacity=".5" fill="none"/></g></g>
+  <g transform="translate(205,372) scale(-.92,.92)"><g class="pop leafy"><path d="M0 0 C-30 -34 -80 -36 -108 -12 C-80 18 -30 22 0 0Z" fill="url(#leafG)"/><path d="M0 0 C-40 -8 -70 -12 -100 -12" stroke="#a6f0d4" stroke-opacity=".5" fill="none"/></g></g>
+  <!-- orbiting words -->
+  <g id="orbit" transform="translate(200,200)"><g class="rot" id="words"></g></g>
+  <!-- flower -->
+  <g transform="translate(200,200)"><g id="bloomGlow"><g id="sepals"></g><g id="rings"></g><circle r="5" fill="#061040"/></g></g>
+</svg>
+</div>
+<div class="cap" id="cap"><h1 id="t"></h1><p id="s"></p></div>
+<button id="again">دوباره ببین ✦</button>
+
+<script>
+(function(){
+  // stars
+  for(var i=0;i<40;i++){var s=document.createElement('div');s.className='star';s.style.left=Math.random()*100+'vw';s.style.top=Math.random()*100+'vh';s.style.animationDelay=(Math.random()*4)+'s';document.body.appendChild(s);}
+  var NS='http://www.w3.org/2000/svg';
+  function el(n,a,p){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;}
+  // petals
+  var cfg=[{n:8,L:98,W:50,r:20,g:0,d:46},{n:7,L:76,W:40,r:8,g:1,d:34},{n:5,L:54,W:30,r:30,g:2,d:26},{n:5,L:36,W:20,r:0,g:3,d:18}];
+  var ringsG=document.getElementById('rings'),rings=[];
+  cfg.forEach(function(c,idx){
+    var outer=el('g',{class:'ring'},ringsG);
+    var inner=el('g',{},outer);inner.style.setProperty('--d',c.d+'s');inner.dataset.spin=idx%2?'-':'';
+    for(var i=0;i<c.n;i++){
+      var a=c.r+i*360/c.n,L=c.L,W=c.W;
+      var d='M0 0 C'+(-W*.9)+' '+(-L*.3)+','+(-W*.85)+' '+(-L*.95)+',0 '+(-L)+' C'+(W*.85)+' '+(-L*.95)+','+(W*.9)+' '+(-L*.3)+',0 0Z';
+      var g=el('g',{transform:'rotate('+a+')'},inner);
+      el('path',{d:d,fill:'url(#g'+c.g+')',stroke:'#cfe9ff','stroke-opacity':.35,'stroke-width':.8},g);
+      el('path',{d:'M0 -4 Q0 '+(-L*.5)+' 0 '+(-L*.85),stroke:'#e6f4ff','stroke-opacity':.25,fill:'none'},g);
+    }
+    rings.push({o:outer,i:inner});
+  });
+  // sepals
+  var sep=document.getElementById('sepals');
+  [125,160,200,235,270].forEach(function(a){
+    var g=el('g',{transform:'rotate('+a+')'},sep);
+    el('path',{d:'M0 0 C-12 -10 -10 -34 0 -46 C10 -34 12 -10 0 0Z',fill:'#1f8a6e'},g);
+  });
+  // orbit words
+  var W=['عشقم','قشنگ‌ترین شروع','کنارِ تو خوبم','دلم با توست','تو و من','تازه شروع شده'],wg=document.getElementById('words');
+  W.forEach(function(w,i){var a=i*60;var t=el('text',{x:0,y:-142,transform:'rotate('+a+')'},wg);t.textContent=w;});
+
+  var roots=document.querySelectorAll('.root'),stem=document.getElementById('stem'),leafs=document.querySelectorAll('.leafy'),
+      seed=document.getElementById('seed'),orbit=document.getElementById('orbit'),stage=document.getElementById('stage'),
+      t=document.getElementById('t'),s=document.getElementById('s'),cap=document.getElementById('cap'),btn=document.getElementById('again');
+  var timers=[];
+  function at(ms,f){timers.push(setTimeout(f,ms));}
+  function say(a,b){cap.style.opacity=0;setTimeout(function(){t.textContent=a;s.textContent=b||'';cap.style.opacity=1;},500);}
+  function reset(){
+    timers.forEach(clearTimeout);timers=[];
+    roots.forEach(function(r){r.classList.remove('on')});stem.classList.remove('on');
+    leafs.forEach(function(l){l.style.transform='scale(0)'});
+    rings.forEach(function(r){r.o.style.transform='scale(0)';r.i.classList.remove('spin');r.i.style.animationDirection='';});
+    sepals.style.transition='';sepals.style.transform='scale(0)';
+    seed.style.opacity=1;orbit.classList.remove('on');stage.classList.remove('turn');btn.classList.remove('show');
+  }
+  var sepals=document.getElementById('sepals');sepals.style.transform='scale(0)';sepals.style.transition='transform 2s ease';
+  function play(){
+    reset();
+    say('دو روز پیش، قصه‌ی ما شروع شد…','و دلم همان لحظه جوانه زد');
+    at(3000,function(){say('هنوز اول راهیم، اما دلم گرم است','ریشه‌ی قصه‌ی ما تازه دارد جان می‌گیرد');roots.forEach(function(r){r.classList.add('on')});});
+    at(6800,function(){say('کنار تو، هر روز کمی بیشتر جان می‌گیرم','قدم‌به‌قدم، آرام و با اشتیاق');stem.classList.add('on');});
+    at(10600,function(){say('برگ‌ها باز می‌شوند، مثل دلِ من با تو','کم‌کم و پر از شوق');leafs.forEach(function(l,i){l.style.transitionDelay=(i*.5)+'s';l.style.transform='scale(1)';});});
+    at(13800,function(){say('غنچه‌ی شروعِ ما آماده‌ی شکفتن است','و من مشتاقِ ساختنِ روزهای قشنگ با تو‌ام…');seed.style.opacity=0;sepals.style.transform='scale(1)';
+      rings[3].o.style.transform='scale(.9)';rings[2].o.style.transform='scale(.55)';});
+    at(17200,function(){say('و رز آبی شکفت…','نایاب و قشنگ؛ درست مثل تو');
+      rings.forEach(function(r,i){r.o.style.transitionDelay=((3-i)*.45)+'s';r.o.style.transform='scale(1)';});});
+    at(22000,function(){
+      rings.forEach(function(r){r.i.classList.add('spin');if(r.i.dataset.spin)r.i.style.animationDirection='reverse';});
+      orbit.classList.add('on');
+      say('این رز آبی، اولین هدیه‌ی ماست ♥','برای شروعی که دوستش دارم، و برای تویی که قشنگ‌ترینی');
+      btn.classList.add('show');
+    });
+  }
+  btn.addEventListener('click',play);
+  play();
+})();
+</script>
+</body>
+</html>
